@@ -12,11 +12,12 @@ Database se data export, import kar sakte hai.
 
 
 ### 2. Nodejs and JavaScipt me kya difference hai?
-
-Nodejs server per run hoti hai || javascript browser per run hoti hai;
-Nodejs se local machine se connect ho sakte hai || javascript client side language hai;
-Nodejs se files create, read, write, update,delete kar sakte hai || javascript se webpages ko dynamic bena sakte hai;
-Nodejs me API create kar sakte hai || javascript me API create nhi kar sakte;
+|Nodejs |JavaScript|
+|:---------|:----------|
+|Nodejs server per run hoti hai | javascript browser per run hoti hai|
+|Nodejs se local machine se connect ho sakte hai | javascript client side language hai|
+|Nodejs se files create, read, write, update,delete kar sakte hai | javascript se webpages ko dynamic bena sakte hai|
+|Nodejs me API create kar sakte hai || javascript me API create nhi kar sakte|
 
 
 ### 3. Module kya hota hai ? Nodejs me module kitni trah se import kr skte hain ?
