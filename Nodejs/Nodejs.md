@@ -13,23 +13,18 @@ Database se data export, import kar sakte hai.
 
 ### 2. Nodejs and JavaScipt me kya difference hai?
 
-
 Nodejs server per run hoti hai || javascript browser per run hoti hai;
 Nodejs se local machine se connect ho sakte hai || javascript client side language hai;
 Nodejs se files create, read, write, update,delete kar sakte hai || javascript se webpages ko dynamic bena sakte hai;
 Nodejs me API create kar sakte hai || javascript me API create nhi kar sakte;
 
 
-
 ### 3. Module kya hota hai ? Nodejs me module kitni trah se import kr skte hain ?
 
+Module ek tarah ka packge hota hai jo specific facilities provide karata hai. jis ki help se humara kaam asani ho jata hai.
 
-Module ek tarah ka packge hota hai jo specific facilities provide karata hai. module kai tarah ke hote hai. 
-
-1. const myModule = require('./myModule');
-2. import myModule from './myModule.mjs';
-3. import { myFunction } from './myModule';
-4. const myModule = import('./myModule.mjs');
+1. const module = require('./module');
+2. const module = import('./module.mjs');
 
 ### 4. Nodjes ke feature ke bare me likho 
 
@@ -81,9 +76,7 @@ File ko export karne se sirf file ka data export hota hai || Folder ko export ka
 
 ### 9. Differnce between callback and promise. Explain with example
 
-
 callback ek function hota hai. jo as argument kisi function ko pass kiya jata hai. or ye kab call hoga hum pata nhi hota hai.
-
 
 Example :
 ```js
@@ -167,7 +160,6 @@ console.log("readFileSync")
 ### 11. writeFile and writeFileSync me kya differences hain? Explain with example
 
 writeFile ek function hai jo asynchronous behavior run hota hai. writeFile function exists file me data write karne or new file create kar ke data write karne ke liye use hota hai.
-
 
 Example :
 ```js
