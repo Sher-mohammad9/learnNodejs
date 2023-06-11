@@ -67,11 +67,12 @@ Relative path sort URL hota hai. relative path humar machine tak hi hota hai. re
 
 
 ### 8. File and Folder me kya differnce hai ?
-
-File kai type ki hoti hai. | Folder ka koi type nhi hota hai.
-File me sirf data hota hai. | Folder me file ya folder ho sakte hai.
-File ke under file nhi hoti | Folder ke under folder ho sakte hai.
-File ko export karne se sirf file ka data export hota hai | Folder ko export karne se folder ka sara data export ho jayga.
+|File |Folder|
+|:---------|:----------|
+|File kai type ki hoti hai. | Folder ka koi type nhi hota hai.|
+|File me sirf data hota hai. | Folder me file ya folder ho sakte hai.|
+|File ke under file nhi hoti | Folder ke under folder ho sakte hai.|
+|File ko export karne se sirf file ka data export hota hai | Folder ko export karne se folder ka sara data export ho jayga.|
 
 
 ### 9. Differnce between callback and promise. Explain with example
