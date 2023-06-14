@@ -1,19 +1,34 @@
-const func = "let hello = function(a, b) {return a + b}";
-let loop = "for(let i = 0; i <= 10; i++){console.log(i)}";
-const data = ";hello(10,10)";
 const fs = require("fs");
-fs.writeFile("readAndFile.js", func, (er, da) => {
+
+// Synchronus bihaviar
+const data = fs.writeFileSync("readAndFile.js", "hello");
+
+// Synchronus with try, catch, finally
+try {
+  fs.writeFileSync("readAndFilesd.js", "ok", { flag: "r+" });
+} catch (er) {
+  console.log(er);
+} finally {
+  console.log("finally is allways run");
+}
+
+// Asynchronus bihaviar
+fs.writeFile("readAndFile.js", "Hiii....", (er, res) => {
   if (er) {
-    console.error("error");
+    throw new Error("file not found");
   } else {
-    console.log("success");
+    console.log(res);
   }
 });
 
-fs.writeFile("readAndFile.js", data, (er) => {
-  if (er) {
-    console.error("error");
-  } else {
-    console.log("success");
-  }
-});
+// write with promise
+const fsP = require("fs/promises");
+const writeProm = fsP.writeFile("writeDATA.txt", "hello", { flag: "r+" });
+console.log(writeProm);
+writeProm.then((data) => console.log("Sucess")).catch((er) => console.log(er));
+
+// write with async await
+const asyncWriteFn = async () => {
+  const data = await fsP.writeFile("writeDATA.txt", "Hii....", { flag: "r+" });
+};
+asyncWriteFn();

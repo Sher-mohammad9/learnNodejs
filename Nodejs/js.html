@@ -10,10 +10,12 @@
 </body>
 
 <script type="text/javascript">
-	const po = new Promise((res, rej)=>{
-       res();
-})
-
-po.then((res)=>console.log(res),(rej)=>console.log(rej)).catch
+// console.log(x, y);
+var x = 1;
+var y = 20;
+function x() {}
+function y() {}
+x(), y();
+console.log(x, y);
 </script>
 </html>
