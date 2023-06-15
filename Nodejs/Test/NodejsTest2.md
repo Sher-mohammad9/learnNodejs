@@ -15,11 +15,11 @@ const pt = require("path");
 const dirArr = ["users", "data", "getData", "hello.html"];
 let currentfolderName = "Instagram";
 for (let i = 0; i <= dirArr.length; i++) {
-  try {
+  try{
     fs.mkdirSync(currentfolderName);
     currentfolderName = pt.join(currentfolderName, dirArr[i]);
-  } catch (er) {
-    console.log(er);
+  } catch(er) { 
+    console.log(er)
   }
 }
 ```
