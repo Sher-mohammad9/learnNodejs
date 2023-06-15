@@ -1,11 +1,11 @@
 const fs = require("fs");
 // All data about file with Asynchronus
-fs.stat("./read.js", (er, stat) => {
+fs.stat("Test/NodejsTest2.md", (er, stat) => {
   if (er) {
     console.log(er);
     return;
   }
-  console.log(stat);
+  console.log("md", stat.mtime);
 });
 
 // is file or not with Asynchronus

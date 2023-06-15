@@ -120,7 +120,22 @@ fs.rmdir("users", (er) => {
 // Delete folder with async, await
 const fsP = require("fs/promises");
 const deleteFn = async () => {
-  let result = await fsP.rmdir("users");
+  let result = await fsP.rmdir("TextFile", { recursive: true, force: true });
   console.log(result);
 };
 deleteFn();
+
+const fs = require("fs");
+const pt = require("path");
+
+const dirArr = ["input.txt", "output.txt"];
+let currentfolderName = "TextFile";
+let temop = "TextFile";
+for (let i = 0; i <= dirArr.length; i++) {
+  try {
+    fs.mkdirSync(temop);
+    temop = pt.join(currentfolderName, dirArr[i]);
+  } catch (er) {
+    console.log(er);
+  }
+}
