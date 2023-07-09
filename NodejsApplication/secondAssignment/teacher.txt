@@ -1,0 +1,5 @@
+[
+    {"id" : 1, "name" : "khan sir", "age" : 25, "mobile" : 123455, "email" : "khan123@gmail.com", "address" : "karakwal"},
+    {"id" : 2, "name" : "sajid sir", "age" : 32, "mobile" : 76767, "email" : "sajid123@gmail.com", "address" : "merta"},
+    {"id" : 3, "name" : "srk sir", "age" : 28, "mobile" : 99787, "email" : "srk123@gmail.com", "address" : "jaipur"}
+]

@@ -1,0 +1,17 @@
+[
+    {"id" : 1,
+     "name" : "Nodejs",
+     "time" : "8:30PM - 9:30PM",
+     "duration" : "4 Month"
+     },
+     {"id" : 2,
+     "name" : "JavaScript",
+     "time" : "7:30PM - 8:30PM",
+     "duration" : "3 Month"
+     },
+     {"id" : 3,
+     "name" : "Design",
+     "time" : "6:30PM - 7:30PM",
+     "duration" : "5 Month"
+     }
+]
