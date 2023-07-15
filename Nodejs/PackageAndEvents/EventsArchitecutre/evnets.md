@@ -1,19 +1,19 @@
 # What is Events?
 
-```
+```js
 Event ek module hai jo nodejs me events ko create, listener, handle karne ke liye use hota hai.
 ```
 
 # What is Event Architecuter?
 
-```
+```js
 Event Architecuter ek methods hai jiska use nodejs project me events ko handle karene users ke dawara hoi responses ko handle kerne ke liye kiya jata hai.
-```
+
 
 Event Emitter (Emits Event) -> jo event ko drop karta hai.
 Event Listener (Calls event handler) -> jo event ko pikup karta hai.
 Event Handler (Callback function, no request) -> jo event ko handle karta hai.
-
+```
 # What is Observer Pattern?
 
 ```js
