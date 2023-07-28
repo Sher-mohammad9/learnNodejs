@@ -1,0 +1,5 @@
+[
+    { "name": "John Sir", "age": 28, "mobile": 12345 },
+    { "name": "Jane Sir", "age": 30, "mobile": 123456},
+    { "name": "Bob Sir", "age": 33, "mobile": 12345678}
+]
