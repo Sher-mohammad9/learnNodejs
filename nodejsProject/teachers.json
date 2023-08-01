@@ -1,5 +1,1 @@
-[
-    { "id": 1, "name": "John Sir", "age": 28, "mobile": 12345 },
-    { "id": 2, "name": "Jane Sir", "age": 30, "mobile": 123456},
-    { "id": 3, "name": "Bob Sir", "age": 33, "mobile": 12345678}
-]
+[{"teacherid":2,"name":"Jane Smith","age":21,"mobile":123456},{"teacherid":3,"name":"true","age":19,"mobile":12345678}]

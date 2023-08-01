@@ -32,17 +32,18 @@ function createTeacher(req, resp){
         teacherData.forEach(teacher =>{
             createResonse(teacher);
         })
-        resp.send("Successfully Create")
+        resp.send("Successfully Create bulk")
     }else{
             createResonse(teacherData)
-    resp.send("Successfully Create")
+    resp.send("Successfully Create id")
     }
     fs.writeFileSync("teachers.json", JSON.stringify(teachers));
 }
 
 
 function createResonse(teacher) {
-    const teacherid = teachers[teachers.length - 1].id + 1;
+    const teacherid = teachers[teachers.length - 1].teacherid + 1;
+    console.log(teacherid)
     const teacherResponse = Object.assign({ teacherid }, teacher);
     teachers.push(teacherResponse);
 }
@@ -51,32 +52,16 @@ function createResonse(teacher) {
 function updateTeacher(req, resp){
     const reqBody = req.body;
     if(reqBody.length > 0){
-            teachers.forEach(oldData => {
-                reqBody.forEach(newData => {
-                if(newData.id === oldData.id){    
-                if(newData.name){
-                    oldData.name = newData.name;
-                }
-                if(newData.mobile){
-                    oldData.mobile = newData.mobile;
-                }
-                if(newData.age){
-                    oldData.age = newData.age;
-                }
+            teachers.forEach(oldTeacher => {
+                reqBody.forEach(newTeacher => {
+                if(newTeacher.id === oldTeacher.teacherId){    
+                updateTeachers(newTeacher, oldTeacher);
             }
             })})       
             resp.send("Successfully update") 
     }else if(reqBody.id){
-            const findIndex = teachers.findIndex(teacher => teacher.id === reqBody.id);
-            if(reqBody.name){
-                teachers[findIndex].name = reqBody.name
-            }
-            if(reqBody.mobile){
-                teachers[findIndex].mobile = reqBody.mobile; 
-            }
-            if(reqBody.age){
-                teachers[findIndex].age = reqBody.age
-            }
+            const findTeacher = teachers.filter(teacher => teacher.teacherId === reqBody.id);
+            updateTeachers(reqBody, findTeacher[0]);
             resp.send("Successfully update")
     }else{
             resp.status(404).send("Not Found")
@@ -84,29 +69,43 @@ function updateTeacher(req, resp){
       fs.writeFileSync("teachers.json", JSON.stringify(teachers));
 }
 
+function updateTeachers(newTeacher, oldTeacher) {
+    if (newTeacher.name) {
+        oldTeacher.name = newTeacher.name;
+    }
+    if (newTeacher.mobile) {
+        oldTeacher.mobile = newTeacher.mobile;
+    }
+    if (newTeacher.age) {
+        oldTeacher.age = newTeacher.age;
+    }
+}
+
 // delete student by id and bulk
 function deleteTeacher(req, resp){
     const reqBody = req.body;
     if(reqBody.length > 0){
         teachers.forEach(oldData => {
-            reqBody.forEach(delData => {
-                if(oldData.id === delData.id){
-                  const findIndex = teachers.findIndex(teacher => teacher.id === delData.id);
-                  teachers.splice(findIndex, 1);
+            reqBody.forEach(delTeacher => {
+                if(oldData.teacherId === delTeacher.id){
+                    deleteTeachers(delTeacher);
                 }
             })
         })
-        resp.status(200).send("Successfully delete")
-    }else if(reqBody.id){
-        const findIndex = teachers.findIndex(teacher => teacher.id === reqBody.id);
-        teachers.splice(findIndex, 1);
-        resp.status(200).send("Successfully delete")
+        resp.status(200).send("Successfully delete bulk")
+    }else if(reqBody.teacherId){
+        deleteTeachers(reqBody)
+        resp.status(200).send("Successfully delete id")
     }else{
         resp.status(404).send("Not Found");
     }
     fs.writeFileSync("teachers.json", JSON.stringify(teachers));
 }
 
+function deleteTeachers(delTeacher) {
+    const findIndex = teachers.findIndex(teacher => teacher.id === delTeacher.id);
+    teachers.splice(findIndex, 1);
+}
 
 module.exports = {
     getTeacherById,
