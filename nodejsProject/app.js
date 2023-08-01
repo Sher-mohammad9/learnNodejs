@@ -1,46 +1,41 @@
 const studentApi = require("./student.js")
 const teacherApi = require("./teacher.js");
 const express = require("express");
+const morgan = require("morgan")
 const app = express();
 
+function userIdn(req, res, next){
+   const {name, age} = req.body;
+   if(name && age >= 18){
+      next();
+   }else{
+      res.name = "hello"
+      res.send("No allow")
+   }
+}
 app.listen(4500, "localhost", ()=>console.log("server start"));
 
 app.use(express.json());
+app.use(userIdn);
+app.use(morgan())
 
-app.get("/", (req, resp)=>{
+app.route("/").get((req, resp)=>{
    resp.send("home page");
-});
+})
 
-// GET all student data
-app.get("/api/v1/students", studentApi.getAllStudent);
+// GET student data and create and update
+app.route("/api/v1/students").get(studentApi.getAllStudent).post(studentApi.createStudent);
 
-// GET student data by Id
-app.get("/api/v1/students/:studentId", studentApi.getStudentById)
-
-//Create student data
-app.post("/api/v1/students", studentApi.createStudent);
-
-//UPDATE student by Id and Bulk
-app.put("/api/v1/students", studentApi.updateStudent);
-
-// DELETE student by id and Bulk
-app.delete("/api/v1/students", studentApi.deleteStudent)
+// GET student data ans delete by Id
+app.route("/api/v1/students/:studentId").get(studentApi.getStudentById).delete(studentApi.deleteStudent).put(studentApi.updateStudent);
 
 
 
-// GET teacher data by id
-app.get("/api/v1/teachers/:teacherId", teacherApi.getTeacherById);
+// GET teacher data and create and update
+app.route("/api/v1/teachers").get(teacherApi.getAllTeacher).post(teacherApi.createTeacher);
 
-// GET all teacher data 
-app.get("/api/v1/teachers", teacherApi.getAllTeacher)
+// GET teacher data and delete by id 
+app.route("/api/v1/teachers/:teacherId").get(teacherApi.getTeacherById).delete(teacherApi.deleteTeacher).put(teacherApi.updateTeacher);
 
-//Create teacher data
-app.post("/api/v1/teachers", teacherApi.createTeacher);
-
-//UPDATE teacher by Id and Bulk
-app.put("/api/v1/teachers", teacherApi.updateTeacher);
-
-// DELETE teacher by id and Bulk
-app.delete("/api/v1/teachers", teacherApi.deleteTeacher)
 
 

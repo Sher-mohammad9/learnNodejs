@@ -31,20 +31,21 @@ function createStudent(req, resp){
     const studentData = req.body;
     if(studentData.length > 0){
         const studentData = req.body;
-        studentData.forEach(stuData => {
-            const id = students[students.length-1].id + 1;
-            const addStuData = Object.assign({id}, stuData);
-            students.push(addStuData);
+        studentData.forEach(student => {
+            createRespone(student);
         });
         resp.send("Successfully Cerate")
     }else{
-        const id = students[students.length-1].id + 1;
-        const addStuData = Object.assign({id}, studentData);
-        students.push(addStuData);
-       fs.writeFileSync("students.json", JSON.stringify(students));
+        createRespone(studentData)
        resp.send("Successfully Cerate")  
     }
     fs.writeFileSync("students.json", JSON.stringify(students));
+}
+
+function createRespone(student) {
+    const studentid = students[students.length - 1].id + 1;
+    const studentResponse = Object.assign({ studentid }, student);
+    students.push(studentResponse);
 }
 
 // UPDATE student data by Id and Bulk

@@ -29,21 +29,23 @@ function getAllTeacher(req, resp){
 function createTeacher(req, resp){
     const teacherData = req.body;
     if(teacherData.length > 0){
-        teacherData.forEach(teaData =>{
-            const id = teachers[teachers.length-1].id + 1;
-            const addTeaData = Object.assign({id}, teaData);
-            teachers.push(addTeaData);
+        teacherData.forEach(teacher =>{
+            createResonse(teacher);
         })
         resp.send("Successfully Create")
     }else{
-    const id = teachers[teachers.length-1].id  + 1;
-    const addTeaData = Object.assign({id}, teacherData);
-    teachers.push(addTeaData);
+            createResonse(teacherData)
     resp.send("Successfully Create")
     }
     fs.writeFileSync("teachers.json", JSON.stringify(teachers));
 }
 
+
+function createResonse(teacher) {
+    const teacherid = teachers[teachers.length - 1].id + 1;
+    const teacherResponse = Object.assign({ teacherid }, teacher);
+    teachers.push(teacherResponse);
+}
 
 // UPDATE teacher data by Id and Bulk
 function updateTeacher(req, resp){
