@@ -34,10 +34,10 @@ function createStudent(req, resp){
         studentData.forEach(student => {
             createRespone(student);
         });
-        resp.send("Successfully Cerate")
+        resp.send("Successfully Cerate by bulk")
     }else{
         createRespone(studentData)
-       resp.send("Successfully Cerate")  
+       resp.send("Successfully Cerate by id")  
     }
     fs.writeFileSync("data/students.json", JSON.stringify(students));
 }
@@ -58,11 +58,11 @@ function updateStudent(req, resp){
                        updateStudents(newStudent, oldStudent);
                     }
             })})       
-            resp.send("Successfully update") 
+            resp.send("Successfully update by bulk") 
     }else if(reqBody.id){
             const findStudent = students.filter(student => student.studentid === reqBody.id);
             updateStudents(reqBody, findStudent[0]);
-            resp.send("Successfully update")
+            resp.send("Successfully update by id")
     }else{
             resp.status(404).send("Not Found")
     }
@@ -84,10 +84,10 @@ function deleteStudent(req, resp){
                 }
             })
         })
-        resp.status(200).send("Successfully delete")
+        resp.status(200).send("Successfully delete by bulk")
     }else if(reqBody.id){
         deleteStudents(reqBody)
-        resp.status(200).send("Successfully delete")
+        resp.status(200).send("Successfully delete by id")
     }else{
         resp.status(404).send("Not Found");
     }
