@@ -84,31 +84,21 @@ function deleteStudent(req, resp){
         reqBody.forEach(delStudent => {
             students.forEach(oldStudent => {
                 if(oldStudent.studentid === delStudent.id){
-                  deleteStudents(delStudent);
+                    const findIndex = students.findIndex(student => student.studentid === delStudent.id);
+                    students.splice(findIndex, 1);
                 }
             })
         })
         resp.status(200).send("Successfully delete by bulk")
     }else if(userId){
-        deleteStudents(userId)
+        const findIndex = students.findIndex(student => student.studentid === userId);
+        students.splice(findIndex, 1);
         resp.status(200).send("Successfully delete by id")
     }else{
         resp.status(404).send("Not Found");
     }
     fs.writeFileSync("data/students.json", JSON.stringify(students));
 }
-
-function deleteStudents(delStudent) {
-    if(isNaN(delStudent)){
-        const findIndex = students.findIndex(student => student.studentid === delStudent.id);
-        students.splice(findIndex, 1);
-    } else {
-        const findIndex = students.findIndex(student => student.studentid === delStudent);
-        students.splice(findIndex, 1);
-    }
-
-}
-
 
 module.exports = {
     getAllStudent,

@@ -84,29 +84,20 @@ function deleteTeacher(req, resp){
         reqBody.forEach(delTeacher => {
             teachers.forEach(oldTeacher => {
                 if(delTeacher.id === oldTeacher.teacherid){
-                    deleteTeachers(delTeacher);
+                    const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher.id);
+                    teachers.splice(findIndex, 1);
                 }
             })
         })
         resp.status(200).send("Successfully delete bulk")
     }else if(userId){
-        deleteTeachers(userId)
+        const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher);
+        teachers.splice(findIndex, 1);
         resp.status(200).send("Successfully delete id")
     }else{
         resp.status(404).send("Not Found");
     }
     fs.writeFileSync("data/teachers.json", JSON.stringify(teachers));
-}
-
-function deleteTeachers(delTeacher) {
-    if(isNaN(delTeacher)){
-        const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher.id);
-        teachers.splice(findIndex, 1);
-    }else{
-        const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher);
-        teachers.splice(findIndex, 1);
-    }
-
 }
 
 module.exports = {
