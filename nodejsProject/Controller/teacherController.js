@@ -50,17 +50,19 @@ function createResonse(teacher) {
 
 // UPDATE teacher data by Id and Bulk
 function updateTeacher(req, resp){
+    const urls = req.url.split("/")
+    const userId = Number(urls[urls.length-1]);
     const reqBody = req.body;
     if(reqBody.length > 0){
-            teachers.forEach(oldTeacher => {
-                reqBody.forEach(newTeacher => {
-                if(newTeacher.id === oldTeacher.teacherid){    
-                updateTeachers(newTeacher, oldTeacher);
+            reqBody.forEach(updateTeacher => {
+                teachers.forEach(oldTeacher => {
+                if(updateTeacher.teacherid === oldTeacher.teacherid){    
+                updateTeachers(updateTeacher, oldTeacher);
             }
             })})       
             resp.send("Successfully update by bulk") 
-    }else if(reqBody.id){
-            const findTeacher = teachers.filter(teacher => teacher.teacherid === reqBody.id);
+    }else if(userId){
+            const findTeacher = teachers.filter(teacher => teacher.teacherid === userId);
             updateTeachers(reqBody, findTeacher[0]);
             resp.send("Successfully update by id")
     }else{
@@ -75,18 +77,20 @@ function updateTeachers(newTeacher, oldTeacher) {
 
 // delete student by id and bulk
 function deleteTeacher(req, resp){
+    const urls = req.url.split("/")
+    const userId = Number(urls[urls.length-1]);    
     const reqBody = req.body;
     if(reqBody.length > 0){
-        teachers.forEach(oldData => {
-            reqBody.forEach(delTeacher => {
-                if(oldData.teacherid === delTeacher.id){
+        reqBody.forEach(delTeacher => {
+            teachers.forEach(oldTeacher => {
+                if(delTeacher.id === oldTeacher.teacherid){
                     deleteTeachers(delTeacher);
                 }
             })
         })
         resp.status(200).send("Successfully delete bulk")
-    }else if(reqBody.teacherId){
-        deleteTeachers(reqBody)
+    }else if(userId){
+        deleteTeachers(userId)
         resp.status(200).send("Successfully delete id")
     }else{
         resp.status(404).send("Not Found");
@@ -95,8 +99,14 @@ function deleteTeacher(req, resp){
 }
 
 function deleteTeachers(delTeacher) {
-    const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher.id);
-    teachers.splice(findIndex, 1);
+    if(isNaN(delTeacher)){
+        const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher.id);
+        teachers.splice(findIndex, 1);
+    }else{
+        const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher);
+        teachers.splice(findIndex, 1);
+    }
+
 }
 
 module.exports = {
