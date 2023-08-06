@@ -7,5 +7,8 @@ const teacherRouter = express.Router();
 
 teacherRouter.route("").get(teacherApi.getAllTeacher).post(teacherApi.createTeacher).put(teacherApi.updateTeacher).delete(teacherApi.deleteTeacher);
 
-teacherRouter.route("/:teacherId").get(userIdentification, teacherApi.getTeacherById).delete(userIdentification, teacherApi.deleteTeacher).put(userIdentification, teacherApi.updateTeacher);
+teacherRouter.route("/:teacherId").get(teacherApi.getTeacherById).delete(teacherApi.deleteTeacher).put( teacherApi.updateTeacher);
+
+teacherRouter.param("teacherId", userIdentification);
+
 module.exports = teacherRouter

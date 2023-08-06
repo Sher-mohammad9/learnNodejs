@@ -65,8 +65,6 @@ function updateTeacher(req, resp){
             const findTeacher = teachers.filter(teacher => teacher.teacherid === userId);
             updateTeachers(reqBody, findTeacher[0]);
             resp.send("Successfully update by id")
-    }else{
-            resp.status(404).send("Not Found")
     }
       fs.writeFileSync("data/teachers.json", JSON.stringify(teachers));
 }
@@ -94,8 +92,6 @@ function deleteTeacher(req, resp){
         const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher);
         teachers.splice(findIndex, 1);
         resp.status(200).send("Successfully delete id")
-    }else{
-        resp.status(404).send("Not Found");
     }
     fs.writeFileSync("data/teachers.json", JSON.stringify(teachers));
 }
