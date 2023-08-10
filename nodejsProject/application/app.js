@@ -10,7 +10,8 @@ app.route("/").get((req, resp)=>{
    resp.send("home page");
 })
 
-app.use("/api/v1/students", studentRouter);
-app.use("/api/v1/teachers", teacherRouter);
+   app.use("/api/v1/students", studentRouter);
+   app.use("/api/v1/teachers", teacherRouter);
+
 
 module.exports = app;

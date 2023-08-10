@@ -1,20 +1,19 @@
-const fs = require("fs");
-const teachers = JSON.parse(fs.readFileSync("data/teachers.json", {encoding : "utf-8"}));
+const model = require("../database/smsSchema.js")
 
-function userIdentification(req, res, next, teacherId){
-    const userId = Number(teacherId);
-    if(!userId){
-       res.status(500).send("Invalid Id")
-    } else {
-       const filterData = teachers.filter(teacher => teacher.teacherid === userId);
-       if(filterData.length === 1){
-          next();
-       }else if(filterData.length > 1){
-          res.status(400).send("More than one record found for the given student id.")
-       }else{
-          res.status(400).send("Student not found given by id");
-       }
-    }
+
+function userIdentification(req, res, next){
+     model.teacherModel.find({"mobile" : req.body.mobile})
+          .then((teacher)=>{
+              if(teacher.length === 0){
+                  res.status(404).send("Student not found given by mobile number");
+              }else if(teacher.length > 1){
+                  res.status(400).send("More than one record found for the given student id.")
+              }else if(teacher.length === 1){
+                  next()
+              }else{
+                  res.status(500).send("Invalid Id")
+              }
+          })
   }
 
 module.exports = userIdentification;  

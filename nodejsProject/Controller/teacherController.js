@@ -1,103 +1,65 @@
-const fs = require("fs");
-const teachers = JSON.parse(fs.readFileSync("data/teachers.json", {encoding : "utf-8"})); 
+const model = require("../database/smsSchema.js")
 
-//GET teacher data by Id
-function getTeacherById(req, resp){
-    const teacherId = Number(req.params.teacherId);
-    const filterTeacherData = teachers.filter(teacher => teacher.teacherid === teacherId);
-    const sendData = {
-        status : "Success",
-        data : {
-            teachers : filterTeacherData[0]
-        }
-    }
-    resp.status(200).json(sendData);
+//GET teacher data by mobile number
+function getTeacherByMobile(req, resp){
+    model.teacherModel.find({"mobile" : req.body.mobile})
+      .then((teacher)=>{
+          resp.status(200).send(teacher);
+      }, (error)=>{
+          resp.status(500).send(error.message)
+      })
 }
 
 // GET all teacher data
 function getAllTeacher(req, resp){
-    const teachersData = {
-        status : "ssuccess",
-        data : {
-            teachers,
-        }
-    }
-    resp.json(teachersData)
+   model.teacherModel.find()
+    .then((teacher)=>{
+        resp.status(200).send(teacher);
+    }, (error)=>{
+        resp.status(500).send(error.message);
+    })
 }
 
-// Create teacher data by id and bulk
+// Create teacher data
 function createTeacher(req, resp){
-    const teacherData = req.body;
-    if(teacherData.length > 0){
-        teacherData.forEach(teacher =>{
-            createResonse(teacher);
-        })
-        resp.send("Successfully Create bulk")
-    }else{
-            createResonse(teacherData)
-    resp.send("Successfully Create id")
-    }
-    fs.writeFileSync("data/teachers.json", JSON.stringify(teachers));
+   const teacher = model.teacherModel(req.body)
+               teacher.save()
+                 .then((teacher)=>{
+                    if(teacher){
+                      resp.status(200).send("Create teacher");
+                    }
+                 }, (error)=>{
+                     resp.status(500).send(error.message);
+                 })
 }
 
-
-function createResonse(teacher) {
-    const teacherid = teachers[teachers.length - 1].teacherid + 1;
-    console.log(teacherid)
-    const teacherResponse = Object.assign({ teacherid }, teacher);
-    teachers.push(teacherResponse);
-}
 
 // UPDATE teacher data by Id and Bulk
 function updateTeacher(req, resp){
-    const urls = req.url.split("/")
-    const userId = Number(urls[urls.length-1]);
-    const reqBody = req.body;
-    if(reqBody.length > 0){
-            reqBody.forEach(updateTeacher => {
-                teachers.forEach(oldTeacher => {
-                if(updateTeacher.teacherid === oldTeacher.teacherid){    
-                updateTeachers(updateTeacher, oldTeacher);
+     model.teacherModel.updateOne({"mobile" : req.body.mobile}, {$set : {"address" : req.body.address}})
+       .then((teacher)=>{
+            if(teacher){
+                resp.status(200).send("Successfully update")
             }
-            })})       
-            resp.send("Successfully update by bulk") 
-    }else if(userId){
-            const findTeacher = teachers.filter(teacher => teacher.teacherid === userId);
-            updateTeachers(reqBody, findTeacher[0]);
-            resp.send("Successfully update by id")
-    }
-      fs.writeFileSync("data/teachers.json", JSON.stringify(teachers));
-}
-
-function updateTeachers(newTeacher, oldTeacher) {
-      Object.assign(oldTeacher, newTeacher)
+       }, (error)=> {
+               resp.status(500).send(error.message)
+       })
 }
 
 // delete student by id and bulk
 function deleteTeacher(req, resp){
-    const urls = req.url.split("/")
-    const userId = Number(urls[urls.length-1]);    
-    const reqBody = req.body;
-    if(reqBody.length > 0){
-        reqBody.forEach(delTeacher => {
-            teachers.forEach(oldTeacher => {
-                if(delTeacher.id === oldTeacher.teacherid){
-                    const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher.id);
-                    teachers.splice(findIndex, 1);
-                }
-            })
-        })
-        resp.status(200).send("Successfully delete bulk")
-    }else if(userId){
-        const findIndex = teachers.findIndex(teacher => teacher.teacherid === delTeacher);
-        teachers.splice(findIndex, 1);
-        resp.status(200).send("Successfully delete id")
-    }
-    fs.writeFileSync("data/teachers.json", JSON.stringify(teachers));
+    model.teacherModel.deleteOne({"mobile" : req.body.mobile})
+      .then((teacher)=>{
+         if(teacher){
+            resp.status(200).send("Delete teacher");
+         }
+      }, (error)=> {
+           resp.status(500).send(error.message);
+      })
 }
 
 module.exports = {
-    getTeacherById,
+    getTeacherByMobile,
     getAllTeacher,
     createTeacher,
     updateTeacher,
