@@ -1,63 +1,103 @@
-const model = require("../database/smsSchema.js")
+const teacherModel = require("../database/model/techerSchema.js");
+const model = require("../database/model/techerSchema.js")
 
-//GET teacher data by mobile number
-function getTeacherByMobile(req, resp){
-    model.teacherModel.find({"mobile" : req.body.mobile})
-      .then((teacher)=>{
-          resp.status(200).send(teacher);
-      }, (error)=>{
-          resp.status(500).send(error.message)
-      })
+//GET teacher data by mobile number bulk
+async function getTeacherByMobile(req, resp) {
+    const userMobile = req.url.split("/");
+    const mobileNumbers = JSON.parse(userMobile[userMobile.length - 1]);
+    if (mobileNumbers.length > 0) {
+        let response = [];
+        for (let mobile of mobileNumbers) {
+            try {
+                const teacher = await teacherModel.find({ "mobile": mobile });
+                response.push(...teacher);
+            } catch (error) {
+                resp.status(500).send(error.message)
+            }
+        }
+        resp.status(200).send(response);
+    } else {
+        const mobile = +userMobile[userMobile.length - 1];
+        try {
+            const teacher = await teacherModel.find({ "mobile": mobile })
+            resp.status(200).send(teacher);
+        } catch (error) {
+            resp.status(500).send(error.message);
+        }
+    }
 }
 
 // GET all teacher data
-function getAllTeacher(req, resp){
-   model.teacherModel.find()
-    .then((teacher)=>{
-        resp.status(200).send(teacher);
-    }, (error)=>{
+async function getAllTeacher(req, resp) {
+    try {
+        const teacher = await teacherModel.find();
+        if (teacher.length === 0) {
+            resp.status(200).send({ "data": "Database is empty" })
+        } else {
+            resp.status(200).send(teacher);
+        }
+    } catch (error) {
         resp.status(500).send(error.message);
-    })
+    }
 }
 
 // Create teacher data
-function createTeacher(req, resp){
-   const teacher = model.teacherModel(req.body)
-               teacher.save()
-                 .then((teacher)=>{
-                    if(teacher){
-                      resp.status(200).send("Create teacher");
-                    }
-                 }, (error)=>{
-                     resp.status(500).send(error.message);
-                 })
+async function createTeacher(req, resp) {
+    const reqBody = req.body;
+    if (reqBody.length > 0) {
+        for (let teacher of reqBody) {
+            try {
+                const createTeacher = new teacherModel(teacher);
+                await createTeacher.save();
+            } catch (error) {
+                resp.status(500).send(error.message);
+            }
+        }
+        resp.status(200).send("Create student bulk");
+    } else {
+        try {
+            const teacher = new teacherModel(reqBody)
+            await teacher.save()
+            resp.status(200).send("Create teacher");
+        } catch (error) {
+            resp.status(500).send(error.message);
+        }
+    }
 }
 
-
 // UPDATE teacher data by Id and Bulk
-function updateTeacher(req, resp){
-     model.teacherModel.updateOne({"mobile" : req.body.mobile}, {$set : {"address" : req.body.address}})
-       .then((teacher)=>{
-            if(teacher){
-                resp.status(200).send("Successfully update")
-            }
-       }, (error)=> {
-               resp.status(500).send(error.message)
-       })
+async function updateTeacher(req, resp) {
+    try {
+        await teacherModel.updateOne({ "mobile": req.body.mobile }, { $set: { "address": req.body.address } })
+        resp.status(200).send("Successfully update")
+    } catch (error) {
+        resp.status(500).send(error.message)
+    }
 }
 
 // delete student by id and bulk
-function deleteTeacher(req, resp){
-    model.teacherModel.deleteOne({"mobile" : req.body.mobile})
-      .then((teacher)=>{
-         if(teacher){
+async function deleteTeacher(req, resp) {
+    const userMobile = req.url.split("/");
+    const mobileNumbers = JSON.parse(userMobile[userMobile.length - 1]);
+    if (mobileNumbers.length > 0) {
+        for (let mobile of mobileNumbers) {
+            try {
+                await teacherModel.deleteOne({ "mobile": mobile });
+            } catch (error) {
+                resp.status(500).send(error.message);
+            }
+        }
+        resp.status(200).send("Delete student bulk")
+    } else {
+        const mobile = +userMobile[userMobile.length - 1]
+        try {
+            await teacherModel.deleteOne({ "mobile": mobile })
             resp.status(200).send("Delete teacher");
-         }
-      }, (error)=> {
-           resp.status(500).send(error.message);
-      })
+        } catch {
+            resp.status(500).send(error.message);
+        }
+    }
 }
-
 module.exports = {
     getTeacherByMobile,
     getAllTeacher,

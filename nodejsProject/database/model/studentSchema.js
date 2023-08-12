@@ -1,4 +1,4 @@
-const mongoose = require("./mongodbConnection.js");
+const mongoose = require("../mongodbConnection.js");
 
 const studentSchema = new mongoose.Schema({
     studentName : {
@@ -32,26 +32,6 @@ const studentSchema = new mongoose.Schema({
 const studentModel = new mongoose.model("student", studentSchema);
 
 
-const teacherSchema = new mongoose.Schema({
-    teacherName : {
-        type : String,
-        required : true
-    },
-    
-    mobile : {
-        type : Number,
-        required : true,
-        unique : true
-    },
-    address : {
-        type : String,
-        required : true
-    }
-})
 
-const teacherModel = new mongoose.model("teacher", teacherSchema);
 
-module.exports = {
-    studentModel,
-    teacherModel
-};
+module.exports = studentModel;
