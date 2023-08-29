@@ -34,7 +34,7 @@ async function getAllTeacher(req, resp) {
         if (teacher.length === 0) {
             resp.status(200).send({ "data": "Database is empty" })
         } else {
-            resp.status(200).send(teacher);
+            resp.status(200).send(teacher[0]);
         }
     } catch (error) {
         resp.status(500).send(error.message);

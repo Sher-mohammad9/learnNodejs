@@ -7,7 +7,7 @@ async function getStudentData(req, resp) {
             if (student.length === 0) {
                   resp.status(200).send({ "data": "Database is empty" })
             } else {
-                  resp.status(200).send(student);
+                  resp.status(200).send(student[0]);
             }
       } catch (error) {
             resp.status(500).send(error.message)
